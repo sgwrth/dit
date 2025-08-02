@@ -1,11 +1,35 @@
 #!/bin/bash
 
-# Exit with error if less than four parameters were passed.
+# Check if necessary binaries are installed on the system
+required_bins=(
+    "awk"
+    "find"
+    "printf"
+    "sed"
+    "touch"
+    "tr"
+    "xargs"
+)
+bin_missing=false
+for required_bin in "${required_bins[@]}"; do
+    if command -v "$required_bin" >/dev/null 2>&1; then
+        : # Do nothing.
+    else
+        bin_missing=true
+        printf "Error: required program '${required_bin}' missing\n"
+    fi
+done
+if [[ bin_missing ]]; then
+    exit 1
+fi
+
+# Exit with error if less than four params (minimum for '-f' action) were passed.
 if [[ "$#" -lt 4 ]]; then
     printf "Error: missing parameter(s)\n"
     exit 1
 fi
 
+# Determine language.
 lang=$1
 case "$lang" in
     "-c")
@@ -18,13 +42,14 @@ case "$lang" in
         ;;
 esac
 
+# Determine action.
 mode=$2
 case $mode in
-    "-f")
+    "-f") # Find.
         ;;
-    "-m")
+    "-m") # Make source (and header) file.
         ;;
-    "-r")
+    "-r") # Replace.
         ;;
     *)
         printf "Error: invalid action argument \"${2}\".\n"
@@ -32,8 +57,8 @@ case $mode in
         ;;
 esac
 
+# If directory param is '-d', replace it with './src/'
 dir=$3
-# If dir param is '-d', replace it with './src/'
 if [[ "$dir" == "-d" ]]; then
     dir="./src/"
 else
@@ -44,6 +69,7 @@ else
     fi
 fi
 
+# Make source (and header) file.
 if [[ "$mode" == "-m" ]]; then
     file=$4
     file_upper=$(printf "$file" | tr '[:lower:]' '[:upper:]')
@@ -65,6 +91,7 @@ if [[ "$mode" == "-m" ]]; then
     printf "$source" >> "${dir}${file}${extension}"
 fi
 
+# Find.
 if [[ "$mode" == "-f" ]]; then
     search_term=$4
 
@@ -93,7 +120,7 @@ if [[ "$mode" == "-f" ]]; then
     printf "$result" | awk 'END { print "Found:", NR }'
 fi
 
-# Replace
+# Replace.
 if [[ "$mode" == "-r" ]]; then
 
     if [[ "$5" == "" ]]; then
