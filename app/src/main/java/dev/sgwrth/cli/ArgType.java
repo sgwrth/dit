@@ -1,0 +1,8 @@
+package dev.sgwrth.cli;
+
+public enum ArgType {
+    NONE,
+    OTHER,
+    VERSION,
+    HELP
+}

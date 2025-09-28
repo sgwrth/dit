@@ -35,7 +35,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'dev.sgwrth.App'
+    mainClass = 'dev.sgwrth.Dit'
 }
 
 tasks.named('test') {
