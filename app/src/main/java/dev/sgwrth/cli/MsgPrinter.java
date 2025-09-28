@@ -5,8 +5,8 @@ public class MsgPrinter {
         System.out.println(msg);
     }
 
-    public static void printVersionOrHelp(String[] args) {
-        final var argType = ArgChecker.getArgType(args);
+    public static void printVersionOrHelp(String arg) {
+        final var argType = ArgChecker.getArgType(arg);
 
         if (argType == ArgType.VERSION) {
             printMsg(InfoMessages.VERSION);

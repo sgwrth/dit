@@ -4,5 +4,7 @@ public enum ArgType {
     NONE,
     OTHER,
     VERSION,
-    HELP
+    HELP,
+    C,
+    CPP
 }
