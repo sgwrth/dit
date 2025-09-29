@@ -6,5 +6,6 @@ public enum ArgType {
     VERSION,
     HELP,
     C,
-    CPP
+    CPP,
+    FIND
 }
