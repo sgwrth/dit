@@ -9,17 +9,9 @@ import java.util.List;
 
 class Dit {
     static void main(String[] args) {
-        
-        FileLister.listFiles("src/")
+        FileLister.getFilepaths("src/")
             .stream()
-            .map(path -> {
-                try {
-                    return Files.readString(path, StandardCharsets.UTF_8);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return "";
-                }
-            })
+            .map(Text::getText)
             .forEach(System.out::println);
 
         if (args.length == 0) {
@@ -27,14 +19,12 @@ class Dit {
             return;
         }
 
-        if (ArgChecker.isVersionOrHelp(ArgChecker.getArgType(args[0]))) {
+        if (ArgChecker.isVersionOrHelp(args[0])) {
             MsgPrinter.printVersionOrHelp(args[0]);
             return;
         }
 
-        final var langArg = ArgChecker.getArgType(args[0]);
-
-        if (!ArgChecker.isValidLang(langArg)) {
+        if (!ArgChecker.isValidLang(args[0])) {
             MsgPrinter.printMsg(ErrorMessages.INVALID_LANG);
             return;
         }

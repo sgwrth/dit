@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.stream.*;
 
 public class FileLister {
-    public static List<Path> listFiles(String dir) {
+    public static List<Path> getFilepaths(String dir) {
         Path startDir = Paths.get(dir);
-
         try (Stream<Path> stream = Files.walk(startDir)) {
             return stream
                 .filter(Files::isRegularFile)

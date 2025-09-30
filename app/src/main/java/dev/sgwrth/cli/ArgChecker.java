@@ -23,7 +23,8 @@ public class ArgChecker {
         return ArgType.OTHER;
     }
 
-    public static Boolean isVersionOrHelp(ArgType argType) {
+    public static Boolean isVersionOrHelp(String arg) {
+        final var argType = ArgChecker.getArgType(arg);
         return switch(argType) {
             case ArgType.VERSION -> true;
             case ArgType.HELP -> true;
@@ -31,7 +32,8 @@ public class ArgChecker {
         };
     }
 
-    public static Boolean isValidLang(ArgType argType) {
+    public static Boolean isValidLang(String arg) {
+        final var argType = ArgChecker.getArgType(arg);
         return switch(argType) {
             case ArgType.C -> true;
             case ArgType.CPP -> true;
