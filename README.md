@@ -1,3 +1,5 @@
+[This program is currently being re-written in Java, see 'javarewrite' branch.]
+
 A CLI tool for Linux (and Cygwin) to assist with terminal-based development of C an C++ project.  Leverages UNIX tools like awk, find, sed, and xargs to help with finding and replacing text in source files, or create new files.
 
 General usage:  
