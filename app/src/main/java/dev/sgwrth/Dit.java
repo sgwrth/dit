@@ -6,13 +6,20 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Dit {
     static void main(String[] args) {
-        FileLister.getFilepaths("src/")
-            .stream()
-            .map(Text::getText)
-            .forEach(System.out::println);
+        final var searchString = "standardcharsets";
+        final var filepaths = FileLister.getFilepaths("src/");
+        for (final var path : filepaths) {
+            final var lines = Text.getLines(path);
+            final var occurances = lines.stream()
+                .filter(line -> Text.containsString(line, searchString))
+                .collect(Collectors.toList());
+            Text.printOccurancesIfAny(path, occurances);
+            
+        }
 
         if (args.length == 0) {
             MsgPrinter.printMsg(InfoMessages.VERSION);
