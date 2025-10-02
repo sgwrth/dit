@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Text {
     public static String getText(Path filepath) {
@@ -19,35 +20,35 @@ public class Text {
         }
     }
     
-    public static List<String> getLines(Path filepath) {
-        var lines = new ArrayList<String>();
-        FileReader fileReader = Text.getFileReader(filepath);
+    public static Optional<List<String>> getLines(Path filepath) {
+        Optional<FileReader> fileReaderOpt = Text.getFileReader(filepath);
 
-        if (fileReader == null) {
+        if (fileReaderOpt.isEmpty()) {
             System.out.println("Error: no FileReader");
-            return lines;
+            return Optional.empty();
         }
 
-        try (BufferedReader br = new BufferedReader(fileReader)) {
+        try (BufferedReader br = new BufferedReader(fileReaderOpt.get())) {
+            var lines = new ArrayList<String>();
             String line;
             int lineNumber = 1;
             while ((line = br.readLine()) != null) {
                 lines.add(Integer.toString(lineNumber) + "    " + line);
                 lineNumber++;
             }
-            return lines;
+            return Optional.of(lines);
         } catch (IOException e) {
             System.out.println("Error reading file.");
-            return lines;
+            return Optional.empty();
         }
     }
 
-    public static FileReader getFileReader(Path filepath) {
+    public static Optional<FileReader> getFileReader(Path filepath) {
         try {
-             return new FileReader(filepath.toString());
+             return Optional.of(new FileReader(filepath.toString()));
         } catch (FileNotFoundException e) {
             System.out.println("Error: file not found");
-            return null;
+            return Optional.empty();
         }
     }
 

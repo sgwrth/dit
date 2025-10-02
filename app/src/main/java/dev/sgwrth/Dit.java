@@ -13,12 +13,17 @@ class Dit {
         final var searchString = "standardcharsets";
         final var filepaths = FileLister.getFilepaths("src/");
         for (final var path : filepaths) {
-            final var lines = Text.getLines(path);
-            final var occurances = lines.stream()
+            final var linesOpt = Text.getLines(path);
+
+            if (linesOpt.isEmpty()) {
+                System.out.println("Error: BufferedReader");
+                return;
+            }
+
+            final var occurances = linesOpt.get().stream()
                 .filter(line -> Text.containsString(line, searchString))
                 .collect(Collectors.toList());
             Text.printOccurancesIfAny(path, occurances);
-            
         }
 
         if (args.length == 0) {
