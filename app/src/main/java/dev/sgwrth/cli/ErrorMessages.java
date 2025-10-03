@@ -2,10 +2,52 @@ package dev.sgwrth.cli;
 
 public class ErrorMessages {
     public static final String INVALID_LANG = """
-    Error: Invalid language argument.
+    Error: invalid language argument.
     """;
 
     public static final String MISSING_ACTION = """
-    Error: No action argument.
+    Error: no action argument.
     """;
+
+    public static final String INVALID_ACTION = """
+    Error: invalid action argument.
+    """;
+
+    public static final String MISSING_PATH = """
+    Error: missing path.
+    """;
+
+    public static final String MISSING_SEARCHSTRING = """
+    Error: missing search string.
+    """;
+
+    public static final String FILE_EXTENSION = """
+    Error getting file extension.
+    """;
+
+    public static final String FILEPATH_LIST = """
+    Error getting list of files.  Wrong path?
+    """;
+
+    public static final String GETTING_LINES = """
+    Error getting lines.
+    """;
+
+    public static final String NO_FILEREADER = """
+    Error: no FileReader.
+    """;
+
+    public static final String BUFFERED_READER = """
+    Error with BufferedReader.
+    """;
+
+    public static final String READING_LINE_WITH_BR = """
+    Error reading line with BufferedReader.
+    """;
+
+    public static final String FILE_NOT_FOUND = """
+    Error: file not found.
+    """;
+
+
 }

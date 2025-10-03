@@ -1,5 +1,6 @@
 package dev.sgwrth.util;
 
+import dev.sgwrth.cli.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,34 +12,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class Text {
-    public static String getText(Path filepath) {
-        try {
-            return Files.readString(filepath, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-    
     public static Optional<List<String>> getLines(Path filepath) {
         Optional<FileReader> fileReaderOpt = Text.getFileReader(filepath);
 
         if (fileReaderOpt.isEmpty()) {
-            System.out.println("Error: no FileReader");
+            MsgPrinter.printMsg(ErrorMessages.NO_FILEREADER);
             return Optional.empty();
         }
 
         try (BufferedReader br = new BufferedReader(fileReaderOpt.get())) {
-            var lines = new ArrayList<String>();
-            String line;
-            int lineNumber = 1;
-            while ((line = br.readLine()) != null) {
-                lines.add(Integer.toString(lineNumber) + "    " + line);
-                lineNumber++;
-            }
-            return Optional.of(lines);
+            return Optional.of(Text.writeLines(br));
         } catch (IOException e) {
-            System.out.println("Error reading file.");
+            MsgPrinter.printMsg(ErrorMessages.BUFFERED_READER);
             return Optional.empty();
         }
     }
@@ -47,28 +32,61 @@ public class Text {
         try {
              return Optional.of(new FileReader(filepath.toString()));
         } catch (FileNotFoundException e) {
-            System.out.println("Error: file not found");
+            MsgPrinter.printMsg(ErrorMessages.NO_FILEREADER);
             return Optional.empty();
         }
     }
 
+    public static List<String> writeLines(BufferedReader br) {
+        List<String> lines = new ArrayList<String>();
+        String line;
+        int lineNumber = 1;
+
+        try {
+            while ((line = br.readLine()) != null) {
+                lines.add(Integer.toString(lineNumber) + "    " + line);
+                lineNumber++;
+            }
+        } catch (IOException e) {
+            MsgPrinter.printMsg(ErrorMessages.READING_LINE_WITH_BR);
+        }
+        
+        return lines;
+    }
+
     public static boolean containsString(String line, String searchString) {
-        return line.toUpperCase().contains(searchString.toUpperCase());
+        return line.contains(searchString);
     }
 
     public static void printOccurancesIfAny(Path path, List<String> occurances) {
         if (occurances.size() > 0) {
-            System.out.println("\n" + path.toString());
-
-            for (var i = 0; i < path.toString().length(); i++) {
-                System.out.print("-");
-
-                if (i == path.toString().length() - 1) {
-                    System.out.print("\n");
-                }
-            }
+            Text.printNewlineAndFilename(path);
+            Text.printUnderline(path);
             occurances.stream()
                 .forEach(System.out::println);
         }
+    }
+
+    public static void printNewlineAndFilename(Path path) {
+        System.out.println("\n" + path.toString());
+    }
+
+    public static void printUnderline(Path path) {
+        for (int i = 0; i < path.toString().length(); i++) {
+            System.out.print("-");
+
+            if (i == text.length() - 1) {
+                System.out.print("\n");
+            }
+        }
+    }
+
+    public static Optional<String> getExtension(String langArg) {
+        return switch (ArgChecker.getArgType(langArg)) {
+            case ArgType.C -> Optional.of(".c");
+            case ArgType.CPP -> Optional.of(".cpp");
+            case ArgType.JAVA -> Optional.of(".java");
+            default -> Optional.empty();
+        };
     }
 }

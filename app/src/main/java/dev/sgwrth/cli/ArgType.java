@@ -7,5 +7,6 @@ public enum ArgType {
     HELP,
     C,
     CPP,
+    JAVA,
     FIND
 }

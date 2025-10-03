@@ -1,31 +1,11 @@
 package dev.sgwrth;
 
 import dev.sgwrth.cli.*;
+import dev.sgwrth.core.*;
 import dev.sgwrth.util.*;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 class Dit {
-    static void main(String[] args) {
-        final var searchString = "standardcharsets";
-        final var filepaths = FileLister.getFilepaths("src/");
-        for (final var path : filepaths) {
-            final var linesOpt = Text.getLines(path);
-
-            if (linesOpt.isEmpty()) {
-                System.out.println("Error: BufferedReader");
-                return;
-            }
-
-            final var occurances = linesOpt.get().stream()
-                .filter(line -> Text.containsString(line, searchString))
-                .collect(Collectors.toList());
-            Text.printOccurancesIfAny(path, occurances);
-        }
-
+    public static void main(String[] args) {
         if (args.length == 0) {
             MsgPrinter.printMsg(InfoMessages.VERSION);
             return;
@@ -36,7 +16,9 @@ class Dit {
             return;
         }
 
-        if (!ArgChecker.isValidLang(args[0])) {
+        final var langArg = args[0];
+
+        if (!ArgChecker.isValidLang(langArg)) {
             MsgPrinter.printMsg(ErrorMessages.INVALID_LANG);
             return;
         }
@@ -46,7 +28,34 @@ class Dit {
             return;
         }
 
-        // final var actionArg = ArgChecker.getArgType(args[1]);
+        final var actionArg = args[1];
 
+        if (!ArgChecker.isValidAction(actionArg)) {
+            MsgPrinter.printMsg(ErrorMessages.INVALID_ACTION);
+            return;
+        }
+
+        if (ArgChecker.getArgType(actionArg) == ArgType.FIND) {
+            if (args.length == 2) {
+                MsgPrinter.printMsg(ErrorMessages.MISSING_PATH);
+                return;
+            }
+
+            if (args.length == 3) {
+                MsgPrinter.printMsg(ErrorMessages.MISSING_SEARCHSTRING);
+                return;
+            }
+
+            final var searchPath = args[2];
+            final var searchString = args[3];
+            final var filepaths = FileLister.getFilepaths(langArg, searchPath);
+            
+            if (filepaths.isEmpty()) {
+                MsgPrinter.printMsg(InfoMessages.EXITING);
+                return;
+            }
+
+            FindText.printFinds(filepaths.get(), searchString);
+        }
     }
 }
