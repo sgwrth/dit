@@ -21,10 +21,6 @@ public class ErrorMessages {
     Error: missing search string.
     """;
 
-    public static final String FILE_EXTENSION = """
-    Error getting file extension.
-    """;
-
     public static final String FILEPATH_LIST = """
     Error getting list of files.  Wrong path?
     """;

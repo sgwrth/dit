@@ -5,8 +5,5 @@ public enum ArgType {
     OTHER,
     VERSION,
     HELP,
-    C,
-    CPP,
-    JAVA,
     FIND
 }

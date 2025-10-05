@@ -57,13 +57,4 @@ public class Text {
     public static boolean containsString(String line, String searchString) {
         return line.contains(searchString);
     }
-
-    public static Optional<String> getExtension(String langArg) {
-        return switch (ArgChecker.getArgType(langArg)) {
-            case ArgType.C -> Optional.of(".c");
-            case ArgType.CPP -> Optional.of(".cpp");
-            case ArgType.JAVA -> Optional.of(".java");
-            default -> Optional.empty();
-        };
-    }
 }

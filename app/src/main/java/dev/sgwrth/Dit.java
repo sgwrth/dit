@@ -16,12 +16,14 @@ public class Dit {
             return;
         }
 
-        final var langArg = args[0];
+        final var langOpt = ArgChecker.getLang(args[0]);
 
-        if (!ArgChecker.isValidLang(langArg)) {
+        if (!ArgChecker.isValidLang(langOpt)) {
             MsgPrinter.printMsg(ErrorMessages.INVALID_LANG);
             return;
         }
+
+        final var lang = langOpt.get();
 
         if (args.length == 1) {
             MsgPrinter.printMsg(ErrorMessages.MISSING_ACTION);
@@ -48,7 +50,7 @@ public class Dit {
 
             final var searchPath = args[2];
             final var searchString = args[3];
-            final var filepaths = FileLister.getFilepaths(langArg, searchPath);
+            final var filepaths = FileLister.getFilepaths(lang, searchPath);
             
             if (filepaths.isEmpty()) {
                 MsgPrinter.printMsg(InfoMessages.EXITING);

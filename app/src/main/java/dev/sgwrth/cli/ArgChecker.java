@@ -1,6 +1,8 @@
 package dev.sgwrth.cli;
 
 import dev.sgwrth.cli.*;
+import dev.sgwrth.core.langs.*;
+import java.util.Optional;
 
 public class ArgChecker {
     public static ArgType getArgType(String arg) {
@@ -14,8 +16,16 @@ public class ArgChecker {
             return ArgType.HELP;
         }
 
+        if (arg.equals("-f") || arg.equals("--find")) {
+            return ArgType.FIND;
+        }
+
+        return ArgType.OTHER;
+    }
+
+    public static Optional<Language> getLang(String arg) {
         if (arg.equals("-c") || arg.equals("--c")) {
-            return ArgType.C;
+            return Optional.of(new LangC());
         }
 
         if (arg.equals("-cpp")
@@ -23,18 +33,14 @@ public class ArgChecker {
                 || arg.equals("-c++")
                 || arg.equals("--c++")
         ) {
-            return ArgType.CPP;
+            return Optional.of(new LangCpp());
         }
 
         if (arg.equals("-j") || arg.equals("--java")) {
-            return ArgType.JAVA;
+            return Optional.of(new LangJava());
         }
 
-        if (arg.equals("-f") || arg.equals("--find")) {
-            return ArgType.FIND;
-        }
-
-        return ArgType.OTHER;
+        return Optional.empty();
     }
 
     public static Boolean isVersionOrHelp(String arg) {
@@ -46,12 +52,15 @@ public class ArgChecker {
         };
     }
 
-    public static Boolean isValidLang(String arg) {
-        final var argType = ArgChecker.getArgType(arg);
-        return switch (argType) {
-            case ArgType.C -> true;
-            case ArgType.CPP -> true;
-            case ArgType.JAVA -> true;
+    public static Boolean isValidLang(Optional<Language> langOpt) {
+        if (langOpt.isEmpty()) {
+            return false;
+        }
+
+        return switch (langOpt.get()) {
+            case LangC c -> true;
+            case LangCpp cpp -> true;
+            case LangJava j -> true;
             default -> false;
         };
     }
