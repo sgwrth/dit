@@ -4,7 +4,7 @@ import dev.sgwrth.cli.*;
 import dev.sgwrth.core.*;
 import dev.sgwrth.util.*;
 
-class Dit {
+public class Dit {
     public static void main(String[] args) {
         if (args.length == 0) {
             MsgPrinter.printMsg(InfoMessages.VERSION);

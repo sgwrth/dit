@@ -58,29 +58,6 @@ public class Text {
         return line.contains(searchString);
     }
 
-    public static void printOccurancesIfAny(Path path, List<String> occurances) {
-        if (occurances.size() > 0) {
-            Text.printNewlineAndFilename(path);
-            Text.printUnderline(path);
-            occurances.stream()
-                .forEach(System.out::println);
-        }
-    }
-
-    public static void printNewlineAndFilename(Path path) {
-        System.out.println("\n" + path.toString());
-    }
-
-    public static void printUnderline(Path path) {
-        for (int i = 0; i < path.toString().length(); i++) {
-            System.out.print("-");
-
-            if (i == text.length() - 1) {
-                System.out.print("\n");
-            }
-        }
-    }
-
     public static Optional<String> getExtension(String langArg) {
         return switch (ArgChecker.getArgType(langArg)) {
             case ArgType.C -> Optional.of(".c");

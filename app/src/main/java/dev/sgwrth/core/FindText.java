@@ -19,7 +19,7 @@ public class FindText {
             final var occurances = linesOpt.get().stream()
                 .filter(line -> Text.containsString(line, searchString))
                 .collect(Collectors.toList());
-            Text.printOccurancesIfAny(filepath, occurances);
+            Output.printOccurancesIfAny(filepath, occurances);
         }
     }
 }
