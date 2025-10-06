@@ -27,15 +27,15 @@ class ArgCheckerTest {
 
     @Test void argCheckerValidatesLang() {
         final var cArg = new String[] {"-c"};
-        var isValidLang = ArgChecker.isValidLang(cArg[0]);
+        var isValidLang = ArgChecker.isValidLang(ArgChecker.getLang(cArg[0]));
         assertEquals(true, isValidLang);
 
         final var cppArg = new String[] {"-cpp"};
-        isValidLang = ArgChecker.isValidLang(cppArg[0]);
+        isValidLang = ArgChecker.isValidLang(ArgChecker.getLang(cppArg[0]));
         assertEquals(true, isValidLang);
 
         final var invalidLangArg = new String[] {"foo"};
-        isValidLang = ArgChecker.isValidLang(invalidLangArg[0]);
+        isValidLang = ArgChecker.isValidLang(ArgChecker.getLang(invalidLangArg[0]));
         assertEquals(false, isValidLang);
     }
 }
