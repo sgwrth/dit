@@ -25,6 +25,16 @@ class ArgCheckerTest {
         assertEquals(ArgType.OTHER, isVersionOrHelp);
     }
 
+    @Test void argCheckerWorksForActions() {
+        final var findArgs = new String[] {"-f"};
+        var argType = ArgChecker.getArgType(findArgs[0]);
+        assertEquals(ArgType.FIND, argType);
+
+        final var replaceArgs = new String[] {"-r"};
+        argType = ArgChecker.getArgType(replaceArgs[0]);
+        assertEquals(ArgType.REPLACE, argType);
+    }
+
     @Test void argCheckerValidatesLang() {
         final var cArg = new String[] {"-c"};
         var isValidLang = ArgChecker.isValidLang(ArgChecker.getLang(cArg[0]));

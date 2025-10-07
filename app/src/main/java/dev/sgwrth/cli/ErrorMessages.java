@@ -45,5 +45,12 @@ public class ErrorMessages {
     Error: file not found.
     """;
 
+    public static final String MISSING_FIND_STR = """
+    Error: missing search parameter.
+    """;
+
+    public static final String MISSING_REPLACE_STR = """
+    Error: missing replacement parameter.
+    """;
 
 }

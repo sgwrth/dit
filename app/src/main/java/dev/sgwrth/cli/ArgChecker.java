@@ -20,6 +20,10 @@ public class ArgChecker {
             return ArgType.FIND;
         }
 
+        if (arg.equals("-r") || arg.equals("--replace")) {
+            return ArgType.REPLACE;
+        }
+
         return ArgType.OTHER;
     }
 
@@ -69,6 +73,7 @@ public class ArgChecker {
         final var argType = ArgChecker.getArgType(arg);
         return switch (argType) {
             case ArgType.FIND -> true;
+            case ArgType.REPLACE -> true;
             default -> false;
         };
     }
