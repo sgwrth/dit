@@ -18,7 +18,7 @@ public class FileLister {
                 .filter(path -> path.toString().endsWith(fileExtension))
                 .collect(Collectors.toList()));
         } catch (IOException e) {
-            MsgPrinter.printMsg(ErrorMessages.FILEPATH_LIST);
+            MsgPrinter.printMsg(ErrorMsgs.FILEPATH_LIST);
             return Optional.empty();
         }
     }

@@ -16,14 +16,14 @@ public class Text {
         Optional<FileReader> fileReaderOpt = Text.getFileReader(filepath);
 
         if (fileReaderOpt.isEmpty()) {
-            MsgPrinter.printMsg(ErrorMessages.NO_FILEREADER);
+            MsgPrinter.printMsg(ErrorMsgs.NO_FILEREADER);
             return Optional.empty();
         }
 
         try (BufferedReader br = new BufferedReader(fileReaderOpt.get())) {
             return Optional.of(Text.writeLines(br));
         } catch (IOException e) {
-            MsgPrinter.printMsg(ErrorMessages.BUFFERED_READER);
+            MsgPrinter.printMsg(ErrorMsgs.BUFFERED_READER);
             return Optional.empty();
         }
     }
@@ -32,7 +32,7 @@ public class Text {
         try {
              return Optional.of(new FileReader(filepath.toString()));
         } catch (FileNotFoundException e) {
-            MsgPrinter.printMsg(ErrorMessages.NO_FILEREADER);
+            MsgPrinter.printMsg(ErrorMsgs.NO_FILEREADER);
             return Optional.empty();
         }
     }
@@ -48,7 +48,7 @@ public class Text {
                 lineNumber++;
             }
         } catch (IOException e) {
-            MsgPrinter.printMsg(ErrorMessages.READING_LINE_WITH_BR);
+            MsgPrinter.printMsg(ErrorMsgs.READING_LINE_WITH_BR);
         }
         
         return lines;

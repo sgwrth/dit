@@ -12,7 +12,7 @@ public class FindText {
             final var linesOpt = Text.getLines(filepath);
 
             if (linesOpt.isEmpty()) {
-                MsgPrinter.printMsg(ErrorMessages.GETTING_LINES);
+                MsgPrinter.printMsg(ErrorMsgs.GETTING_LINES);
                 return;
             }
 
