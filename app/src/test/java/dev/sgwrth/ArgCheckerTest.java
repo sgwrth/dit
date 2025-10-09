@@ -33,6 +33,10 @@ class ArgCheckerTest {
         final var replaceArgs = new String[] {"-r"};
         argType = ArgChecker.getArgType(replaceArgs[0]);
         assertEquals(ArgType.REPLACE, argType);
+
+        final var makeArgs = new String[] {"-m"};
+        argType = ArgChecker.getArgType(makeArgs[0]);
+        assertEquals(ArgType.MAKE, argType);
     }
 
     @Test void argCheckerValidatesLang() {

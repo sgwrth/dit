@@ -6,5 +6,6 @@ public enum ArgType {
     VERSION,
     HELP,
     FIND,
-    REPLACE
+    REPLACE,
+    MAKE
 }

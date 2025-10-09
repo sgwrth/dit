@@ -10,12 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileMakerTest {
-    @Test void fileMakesCreatesSourceFile() {
-        Path filepath = Path.of("../testdata");
-        final var className = "Foo";
+    @Test void fileMakesCreatesBasicJavaSourceFile() {
         FileMaker fm = new FileMakerJava();
-        fm.makeSourceFile(className);
-        Path fullFilepath = Path.of(filepath + "/Foo.java");
+        fm.makeSourceFile("Foo");
+        Path fullFilepath = Path.of("../testdata/Foo.java");
         List<String> lines = null;
 
         try {
@@ -25,5 +23,12 @@ class FileMakerTest {
         }
 
         assertEquals(lines.get(0), "public class Foo {");
+        
+        // Clean up.
+        try {
+            Files.delete(fullFilepath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

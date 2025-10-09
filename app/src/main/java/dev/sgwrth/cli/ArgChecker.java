@@ -24,6 +24,10 @@ public class ArgChecker {
             return ArgType.REPLACE;
         }
 
+        if (arg.equals("-m") || arg.equals("--make")) {
+            return ArgType.MAKE;
+        }
+
         return ArgType.OTHER;
     }
 
@@ -74,6 +78,7 @@ public class ArgChecker {
         return switch (argType) {
             case ArgType.FIND -> true;
             case ArgType.REPLACE -> true;
+            case ArgType.MAKE -> true;
             default -> false;
         };
     }
