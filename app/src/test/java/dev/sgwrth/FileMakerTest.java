@@ -1,6 +1,7 @@
 package dev.sgwrth;
 
 import dev.sgwrth.core.*;
+import dev.sgwrth.util.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,21 +13,58 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileMakerTest {
     @Test void fileMakesCreatesBasicJavaSourceFile() {
         FileMaker fm = new FileMakerJava();
-        fm.makeSourceFile("Foo");
-        Path fullFilepath = Path.of("../testdata/Foo.java");
+        Path dirpath = Path.of("../testdata/");
+        final var className = "Foo";
+        fm.makeSourceFile(dirpath, className);
         List<String> lines = null;
+        Path fullPath = Path.of(dirpath + className + ".java");
 
         try {
-            lines = Files.readAllLines(fullFilepath);
+            lines = Files.readAllLines(fullPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         assertEquals(lines.get(0), "public class Foo {");
         
-        // Clean up.
+        // Cleanup.
         try {
-            Files.delete(fullFilepath);
+            Files.delete(fullPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test void findMainClass() {
+        final var dirpath = Path.of("../testdata/src/main/java/dev/sgwrth");
+        final var fullPath = dirpath.resolve("Foo.java");
+        final var fileContents = """
+        public static void main(String[] args) {
+
+        }
+        """;
+
+        try {
+            Files.createDirectories(dirpath);
+            Files.writeString(fullPath, fileContents, StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        final var mainClassFilepathOpt = FileMakerJava.getMainClassFilepath(fullPath);
+        assertEquals(fullPath, mainClassFilepathOpt.get());
+
+        final var pathAsStrings = Text.pathAsStrings(mainClassFilepathOpt.get());
+        assertEquals(pathAsStrings, List.of("..", "testdata", "src", "main",
+            "java", "dev", "sgwrth", "Foo.java"));
+
+        final var packageStatementOpt = FileMakerJava.getPackageStatement(fullPath);
+        assertEquals("package dev.sgwrth;", packageStatementOpt.get()); 
+
+        // Partial cleanup.
+        try {
+            Files.delete(fullPath);
         } catch (IOException e) {
             e.printStackTrace();
         }

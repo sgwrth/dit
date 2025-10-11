@@ -1,6 +1,7 @@
 package dev.sgwrth.util;
 
 import dev.sgwrth.cli.*;
+import dev.sgwrth.core.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +58,13 @@ public class Text {
 
     public static boolean containsString(String line, String searchString) {
         return line.contains(searchString);
+    }
+
+    public static List<String> pathAsStrings(Path filepath) {
+        final var pathParts = new ArrayList<String>();
+        for (Path part : filepath) {
+            pathParts.add(part.toString());
+        }
+        return pathParts;
     }
 }
