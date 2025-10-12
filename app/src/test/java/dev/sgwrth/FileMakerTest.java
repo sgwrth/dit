@@ -61,7 +61,7 @@ class FileMakerTest {
         assertEquals(pathAsStrings, List.of("..", "testdata", "src", "main",
             "java", "dev", "sgwrth", "Foo.java"));
 
-        final var packageStmtOpt = FileMakerJava.getPackageStmt(mainClassFilepathOpt.get());
+        final var packageStmtOpt = Text.getPackageLine(mainClassFilepathOpt.get());
         assertEquals("package dev.sgwrth;", packageStmtOpt.get());
 
         // Partial cleanup.
@@ -89,8 +89,8 @@ class FileMakerTest {
             e.printStackTrace();
         }
 
-        final var packageStmtOpt = FileMakerJava.getPackageStmt(Path.of("../testdata"));
-        assertEquals(true, packageStmtOpt.isEmpty());
+        final var packageStmtOpt = Text.getPackageLine(fullPath);
+        assertEquals("", packageStmtOpt.get());
 
         // Partial cleanup.
         try {

@@ -86,7 +86,7 @@ public class Text {
             Optional.empty();
         }
 
-        return Optional.empty();
+        return Optional.of("");
     }
 
     public static boolean containsPackageLine(Path filepath) {

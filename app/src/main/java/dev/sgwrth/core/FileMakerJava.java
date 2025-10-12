@@ -29,28 +29,6 @@ public class FileMakerJava implements FileMaker {
         }
     }
 
-    // public static Optional<Path> getMainClassFilepath(Path filepath) {
-    //     final var fileReaderOpt = Text.getFileReader(filepath);    
-
-    //     if (fileReaderOpt.isEmpty()) {
-    //         return Optional.empty();
-    //     }
-
-    //     try (BufferedReader br = new BufferedReader(fileReaderOpt.get())) {
-    //         String line;
-    //         while ((line = br.readLine()) != null) {
-    //             if (FileMakerJava.containsMainClassCode(line)) {
-    //                 return Optional.of(filepath);
-    //             }
-    //         }
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //         return Optional.empty();
-    //     }
-
-    //     return Optional.empty();
-    // }
-
     public static boolean containsMainClass(Path filepath) {
         final var fileReaderOpt = Text.getFileReader(filepath);    
 
@@ -89,9 +67,7 @@ public class FileMakerJava implements FileMaker {
                 .collect(Collectors.toList());
 
             if (filepaths.size() != 1) {
-                throw new RuntimeException(String.format("foobar, %d\n",
-                    filepaths.size())
-                );
+                return Optional.empty();
             }
             
             return Optional.of(filepaths.get(0));
@@ -99,17 +75,5 @@ public class FileMakerJava implements FileMaker {
             MsgPrinter.printMsg(ErrorMsgs.FILEPATH_LIST);
             return Optional.empty();
         }
-    }
-
-    public static Optional<String> getPackageStmt(Path filepath) {
-        /*
-        final var mainClassFilepathOpt = FileLister.getMainClassFilepath(dir);
-
-        if (mainClassFilepathOpt.isEmpty()) {
-            return Optional.empty();
-        }
-        */
-
-        return Text.getPackageLine(filepath);
     }
 }
