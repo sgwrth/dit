@@ -67,4 +67,46 @@ public class Text {
         }
         return pathParts;
     }
+
+    public static Optional<String> getPackageLine(Path filepath) {
+        final var fileReaderOpt = Text.getFileReader(filepath);
+
+        if (fileReaderOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        try (BufferedReader br = new BufferedReader(fileReaderOpt.get())) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("package ")) {
+                    return Optional.of(line);
+                }
+            }
+        } catch (IOException e) {
+            Optional.empty();
+        }
+
+        return Optional.empty();
+    }
+
+    public static boolean containsPackageLine(Path filepath) {
+        final var fileReaderOpt = Text.getFileReader(filepath);
+
+        if (fileReaderOpt.isEmpty()) {
+            return false;
+        }
+
+        try (BufferedReader br = new BufferedReader(fileReaderOpt.get())) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("package ")) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+
+        return false;
+    }
 }
