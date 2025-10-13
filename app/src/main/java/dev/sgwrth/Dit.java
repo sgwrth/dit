@@ -77,8 +77,39 @@ public class Dit {
 
             filepathsOpt.get().stream()
                 .forEach(filepath -> TextReplacer.replace(filepath, findStr, replaceStr));
-
             FindText.printFinds(filepathsOpt.get(), replaceStr);
+            return;
+        }
+
+        if (ArgChecker.getArgType(actionArg) == ArgType.MAKE) {
+            switch (args.length) {
+                case 2 -> { MsgPrinter.printMsg(ErrorMsgs.MISSING_PATH); return; }
+                case 3 -> { MsgPrinter.printMsg(ErrorMsgs.MISSING_TARGET_DIR); return; }
+                case 4 -> { MsgPrinter.printMsg(ErrorMsgs.MISSING_FILENAME); return; }
+            }
+
+            final var filepath = args[2];
+            final var targetDir = args[3];
+            final var filename = args[4];
+            final var mainClassFilepathOpt = FileMakerJava.getMainClassFilepath(filepath);
+
+            if (mainClassFilepathOpt.isEmpty()) {
+                System.out.println("Error finding main class filepath.");
+                return;
+            }
+
+            final var mainClassDir
+                = FileMakerJava.getMainClassDir(mainClassFilepathOpt.get());
+            final var fullTargetPath = mainClassFilepathOpt.get().resolve(targetDir);
+            final var makeDirsErrno = FileSys.makeDirs(fullTargetPath);
+
+            if (makeDirsErrno == 1) {
+                System.out.println("Error creating directories.");
+                return;
+            }
+
+            final FileMaker fmj = new FileMakerJava();
+            fmj.makeSourceFile(fullTargetPath, filename);
         }
     }
 }

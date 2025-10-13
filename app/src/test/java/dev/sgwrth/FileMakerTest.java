@@ -99,4 +99,12 @@ class FileMakerTest {
             e.printStackTrace();
         }
     }
+
+    @Test void getMainClassDir() {
+        final var fullPath = Path.of("../testdata/src/main/java/dev/sgwrth/Foo.java");
+        final var mainClassDir = FileMakerJava.getMainClassDir(fullPath);
+        final var dir = Path.of("../testdata/src/main/java/dev/sgwrth");
+        assertEquals(dir, mainClassDir);
+    }
+
 }

@@ -53,4 +53,11 @@ public class ErrorMsgs {
     Error: missing replacement parameter.
     """;
 
+    public static final String MISSING_FILENAME = """
+    Error: missing source file name.
+    """;
+
+    public static final String MISSING_TARGET_DIR = """
+    Error: missing target dir.
+    """;
 }

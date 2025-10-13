@@ -7,4 +7,5 @@ testdata/
 # Ignore Gradle build output directory
 build
 
+*.exe
 *.swp

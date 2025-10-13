@@ -76,4 +76,10 @@ public class FileMakerJava implements FileMaker {
             return Optional.empty();
         }
     }
+
+    public static Path getMainClassDir(Path fullPath) {
+        final var pathAsStrings = Text.pathAsStrings(fullPath);
+        pathAsStrings.removeLast();
+        return Path.of(String.join("/", pathAsStrings));
+    }
 }
