@@ -4,6 +4,7 @@ import dev.sgwrth.cli.*;
 import dev.sgwrth.core.*;
 import dev.sgwrth.core.langs.*;
 import dev.sgwrth.util.*;
+import java.nio.file.Path;
 import java.util.Optional;
 
 public class Dit {
@@ -100,7 +101,8 @@ public class Dit {
 
             final var mainClassDir
                 = FileMakerJava.getMainClassDir(mainClassFilepathOpt.get());
-            final var fullTargetPath = mainClassFilepathOpt.get().resolve(targetDir);
+            final var fullTargetPath
+                = Path.of(mainClassDir.toString() + "/" + targetDir.toString());
             final var makeDirsErrno = FileSys.makeDirs(fullTargetPath);
 
             if (makeDirsErrno == 1) {

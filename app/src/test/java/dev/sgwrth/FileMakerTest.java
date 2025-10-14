@@ -17,7 +17,7 @@ class FileMakerTest {
         final var className = "Foo";
         fm.makeSourceFile(dirpath, className);
         List<String> lines = null;
-        Path fullPath = Path.of(dirpath + className + ".java");
+        Path fullPath = Path.of(dirpath + "/" + className + ".java");
 
         try {
             lines = Files.readAllLines(fullPath);
@@ -38,13 +38,10 @@ class FileMakerTest {
     @Test void findMainClassWithPackageStmt() {
         final var dirpath = Path.of("../testdata/src/main/java/dev/sgwrth");
         final var fullPath = dirpath.resolve("Foo.java");
-        final var fileContents = """
-        package dev.sgwrth;
-
-        public static void main(String[] args) {
-
-        }
-        """;
+        final var packageAndClass = "package dev.sgwrth;\n\npublic class Foo {\n";
+        final var mainClass = "\tpublic static void main(String[] args) {\n";
+        final var closingBraces = "\t}\n}";
+        final String fileContents = packageAndClass + mainClass + closingBraces;
 
         try {
             Files.createDirectories(dirpath);
@@ -75,11 +72,10 @@ class FileMakerTest {
     @Test void findMainClassWithoutPackageStmt() {
         final var dirpath = Path.of("../testdata/src/main/java/dev/sgwrth");
         final var fullPath = dirpath.resolve("Foo.java");
-        final var fileContents = """
-        public static void main(String[] args) {
-
-        }
-        """;
+        final var publicClass = "public class Foo {\n";
+        final var mainClass = "\tpublic static void main(String[] args) {\n";
+        final var closingBraces = "\t}\n}";
+        final String fileContents = publicClass + mainClass + closingBraces;
 
         try {
             Files.createDirectories(dirpath);

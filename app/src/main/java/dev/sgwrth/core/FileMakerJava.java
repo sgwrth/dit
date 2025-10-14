@@ -15,7 +15,7 @@ import java.util.stream.*;
 public class FileMakerJava implements FileMaker {
     @Override
     public void makeSourceFile(Path dirpath, String className) {
-        final var filepath = Path.of(dirpath + className + ".java");
+        final var filepath = Path.of(dirpath + "/" + className + ".java");
         final var fileContent = String.format("""
         public class %s {
 
@@ -52,7 +52,9 @@ public class FileMakerJava implements FileMaker {
     }
 
     public static boolean containsMainClassCode(String line) {
-        return (line.contains(" void main(")) ? true : false;
+        String regex
+            = "^\\s+public\\s+static\\s+void\\s+main\\(String\\[\\]\\s+args\\)\\s*\\{\\s*$";
+        return line.matches(regex);
     }
 
     public static Optional<Path> getMainClassFilepath(String dir) {
