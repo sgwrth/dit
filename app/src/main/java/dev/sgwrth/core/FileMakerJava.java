@@ -15,11 +15,12 @@ import java.util.stream.*;
 public class FileMakerJava implements FileMaker {
     @Override
     public void makeSourceFile(Path dirpath, String className) {
-        final var filepath = Path.of(dirpath + "/" + className + ".java");
+        final var classNameWithoutExt = FileMakerJava.cropExtension(className);
+        final var filepath = Path.of(dirpath + "/" + classNameWithoutExt + ".java");
         final var fileContent = String.format("""
         public class %s {
 
-        }""", className);
+        }""", classNameWithoutExt);
 
         try {
             Files.writeString(filepath, fileContent, StandardOpenOption.CREATE,
@@ -53,7 +54,8 @@ public class FileMakerJava implements FileMaker {
 
     public static boolean containsMainClassCode(String line) {
         String regex
-            = "^\\s+public\\s+static\\s+void\\s+main\\(String\\[\\]\\s+args\\)\\s*\\{\\s*$";
+            // = "^\\s+public\\s+static\\s+void\\s+main\\(String\\[\\]\\s+args\\)\\s*\\{\\s*$";
+            = "^\\s+.*\\s+main\\(.*\\)\\s*\\{\\s*$";
         return line.matches(regex);
     }
 
@@ -84,4 +86,13 @@ public class FileMakerJava implements FileMaker {
         pathAsStrings.removeLast();
         return Path.of(String.join("/", pathAsStrings));
     }
+
+    public static String cropExtension(String filename) {
+        if (filename.contains(".")) {
+            String[] filenameParts = filename.split("\\.");
+            return filenameParts[0];
+        }
+        return filename;
+    }
+
 }

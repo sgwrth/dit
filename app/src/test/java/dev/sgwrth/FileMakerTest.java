@@ -103,4 +103,10 @@ class FileMakerTest {
         assertEquals(dir, mainClassDir);
     }
 
+    @Test void getFilenameWithoutExtension() {
+        final var filename = "Foo.java";
+        final var filenameWithoutExt = FileMakerJava.cropExtension(filename);
+        assertEquals("Foo", filenameWithoutExt);
+    }
+
 }
