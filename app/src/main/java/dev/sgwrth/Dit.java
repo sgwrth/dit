@@ -36,8 +36,7 @@ public class Dit {
         final String actionArg = args[1];
 
         if (!ArgChecker.isValidAction(actionArg)) {
-            MsgPrinter.printMsg(ErrorMsgs.INVALID_ACTION);
-            System.out.println(actionArg);
+            MsgPrinter.printMsg(ErrorMsgs.INVALID_ACTION + " '" + actionArg + "'");
             return;
         }
 
@@ -95,7 +94,6 @@ public class Dit {
             final var mainClassFilepathOpt = FileMakerJava.getMainClassFilepath(filepath);
 
             if (mainClassFilepathOpt.isEmpty()) {
-                System.out.println("Error finding main class filepath.");
                 return;
             }
 

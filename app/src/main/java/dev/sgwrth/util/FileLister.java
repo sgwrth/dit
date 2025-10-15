@@ -20,7 +20,7 @@ public class FileLister {
                 .filter(path -> path.toString().endsWith(fileExtension))
                 .collect(Collectors.toList()));
         } catch (IOException e) {
-            MsgPrinter.printMsg(ErrorMsgs.FILEPATH_LIST);
+            MsgPrinter.printMsg(ErrorMsgs.FILEPATH_LIST + "('" + dir + "')");
             return Optional.empty();
         }
     }

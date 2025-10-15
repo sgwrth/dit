@@ -53,9 +53,7 @@ public class FileMakerJava implements FileMaker {
     }
 
     public static boolean containsMainClassCode(String line) {
-        String regex
-            // = "^\\s+public\\s+static\\s+void\\s+main\\(String\\[\\]\\s+args\\)\\s*\\{\\s*$";
-            = "^\\s+.*\\s+main\\(.*\\)\\s*\\{\\s*$";
+        String regex = "^\\s+.*\\s+main\\(.*\\)\\s*\\{\\s*$";
         return line.matches(regex);
     }
 
@@ -76,7 +74,7 @@ public class FileMakerJava implements FileMaker {
             
             return Optional.of(filepaths.get(0));
         } catch (IOException e) {
-            MsgPrinter.printMsg(ErrorMsgs.FILEPATH_LIST);
+            MsgPrinter.printMsg(ErrorMsgs.FILEPATH_LIST + " ('" + dir + "')");
             return Optional.empty();
         }
     }
