@@ -13,14 +13,30 @@ import java.util.Optional;
 import java.util.stream.*;
 
 public class FileMakerJava implements FileMaker {
-    @Override
-    public void makeSourceFile(Path dirpath, String className) {
+    public static void makeSourceFile(
+            Path dirpath,
+            String className,
+            String packageLine,
+            String targetDir
+    ) {
         final var classNameWithoutExt = FileMakerJava.cropExtension(className);
         final var filepath = Path.of(dirpath + "/" + classNameWithoutExt + ".java");
-        final var fileContent = String.format("""
-        public class %s {
+        String fileContent;
 
-        }""", classNameWithoutExt);
+        if (packageLine.equals("")) {
+            fileContent = String.format("""
+            public class %s {
+
+            }""", classNameWithoutExt);
+        } else {
+
+            fileContent = String.format("""
+            %s
+            public class %s {
+
+            }""", classNameWithoutExt);
+
+        }
 
         try {
             Files.writeString(filepath, fileContent, StandardOpenOption.CREATE,
@@ -93,4 +109,13 @@ public class FileMakerJava implements FileMaker {
         return filename;
     }
 
+    public static String pathToPackageStmt(String path) {
+        if (path.substring(path.length() - 1).equals("/")) {
+            path = path.substring(0, path.length() - 1);
+        }
+
+        path = path.replace('/', '.');
+
+        return path + ";";
+    }
 }

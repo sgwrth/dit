@@ -97,19 +97,27 @@ public class Dit {
                 return;
             }
 
+            final var packageLineOpt = Text.getPackageLine(mainClassFilepathOpt.get());
+
+            if (packageLineOpt.isEmpty()) {
+                System.out.println("Error getting package line.");
+                return;
+            }
+
             final var mainClassDir
                 = FileMakerJava.getMainClassDir(mainClassFilepathOpt.get());
             final var fullTargetPath
                 = Path.of(mainClassDir.toString() + "/" + targetDir.toString());
             final var makeDirsErrno = FileSys.makeDirs(fullTargetPath);
 
-            if (makeDirsErrno == 1) {
-                System.out.println("Error creating directories.");
+            if (makeDirsErrno != 0) {
                 return;
             }
 
-            final FileMaker fmj = new FileMakerJava();
-            fmj.makeSourceFile(fullTargetPath, filename);
+            // final FileMaker fmj = new FileMakerJava();
+            FileMakerJava.makeSourceFile(fullTargetPath, filename,
+                packageLineOpt.get(), targetDir
+            );
         }
     }
 }

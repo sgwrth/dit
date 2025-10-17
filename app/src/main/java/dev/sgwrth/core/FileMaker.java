@@ -1,8 +1,8 @@
 package dev.sgwrth.core;
 
-import java.nio.file.Path;
+// import java.nio.file.Path;
 
-@FunctionalInterface
+// @FunctionalInterface
 public interface FileMaker {
-    void makeSourceFile(Path dirpath, String filename);
+    // void makeSourceFile(Path dirpath, String filename);
 }

@@ -1,5 +1,6 @@
 package dev.sgwrth.util;
 
+import dev.sgwrth.cli.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +11,7 @@ public class FileSys {
             Files.createDirectories(filepath);
             return 0;
         } catch (IOException e) {
-            e.printStackTrace();
+            MsgPrinter.printMsg(ErrorMsgs.CREATING_DIRS);
             return 1;
         }
     }

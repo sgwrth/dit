@@ -77,6 +77,7 @@ public class Text {
 
         try (BufferedReader br = new BufferedReader(fileReaderOpt.get())) {
             String line;
+
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("package ")) {
                     return Optional.of(line);
@@ -98,6 +99,7 @@ public class Text {
 
         try (BufferedReader br = new BufferedReader(fileReaderOpt.get())) {
             String line;
+
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("package ")) {
                     return true;

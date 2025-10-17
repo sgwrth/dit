@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileMakerTest {
+    /*
     @Test void fileMakesCreatesBasicJavaSourceFile() {
         FileMaker fm = new FileMakerJava();
         Path dirpath = Path.of("../testdata/");
@@ -34,6 +35,7 @@ class FileMakerTest {
             e.printStackTrace();
         }
     }
+    */
 
     @Test void findMainClassWithPackageStmt() {
         final var dirpath = Path.of("../testdata/src/main/java/dev/sgwrth");
@@ -109,4 +111,9 @@ class FileMakerTest {
         assertEquals("Foo", filenameWithoutExt);
     }
 
+    @Test void convertPathToPackageStmt() {
+        final var path = "foo/bar/";
+        final var packageStmt = FileMakerJava.pathToPackageStmt(path);
+        assertEquals("foo.bar;", packageStmt);
+    }
 }

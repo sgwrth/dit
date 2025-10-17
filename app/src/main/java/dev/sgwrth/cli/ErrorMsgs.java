@@ -45,4 +45,7 @@ public class ErrorMsgs {
 
     public static final String MISSING_TARGET_DIR = """
     Error: missing target dir.""";
+
+    public static final String CREATING_DIRS = """
+    Error creating directories.""";
 }
