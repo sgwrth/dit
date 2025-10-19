@@ -116,4 +116,12 @@ class FileMakerTest {
         final var packageStmt = FileMakerJava.pathToPackageStmt(path);
         assertEquals("foo.bar;", packageStmt);
     }
+
+    @Test void concatPackageLine() {
+        final var packageLine = "package dev.sgwrth;";
+        final var subDir = "some/subdir";
+        final var concatenatedPackageLine
+            = FileMakerJava.concatPackageLine(packageLine, subDir);
+        assertEquals("package dev.sgwrth.some.subdir;", concatenatedPackageLine);
+    }
 }

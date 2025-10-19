@@ -21,7 +21,7 @@ public class FileMakerJava implements FileMaker {
     ) {
         final var classNameWithoutExt = FileMakerJava.cropExtension(className);
         final var filepath = Path.of(dirpath + "/" + classNameWithoutExt + ".java");
-        String fileContent;
+        String fileContent = "";
 
         if (packageLine.equals("")) {
             fileContent = String.format("""
@@ -29,13 +29,14 @@ public class FileMakerJava implements FileMaker {
 
             }""", classNameWithoutExt);
         } else {
-
+            final var concatenatedPackageLine
+                = FileMakerJava.concatPackageLine(packageLine, targetDir);
             fileContent = String.format("""
             %s
+
             public class %s {
 
-            }""", classNameWithoutExt);
-
+            }""", concatenatedPackageLine, classNameWithoutExt);
         }
 
         try {
@@ -117,5 +118,11 @@ public class FileMakerJava implements FileMaker {
         path = path.replace('/', '.');
 
         return path + ";";
+    }
+
+    public static String concatPackageLine(String packageLine, String subDir) {
+        final var packageLineWithPeriod = packageLine.replace(";", ".");
+        final var subDirWithPeriod = FileMakerJava.pathToPackageStmt(subDir);
+        return packageLineWithPeriod + subDirWithPeriod;
     }
 }

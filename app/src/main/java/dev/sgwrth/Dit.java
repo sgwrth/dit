@@ -114,7 +114,6 @@ public class Dit {
                 return;
             }
 
-            // final FileMaker fmj = new FileMakerJava();
             FileMakerJava.makeSourceFile(fullTargetPath, filename,
                 packageLineOpt.get(), targetDir
             );
